@@ -10,7 +10,7 @@ if (!empty($_GET['save'])) {
     header('Location: ../order');
 }
 $order = new \Order($_SESSION['orderID'], $db);
-$user = new \User($order->getUserID(), $db);
+$user = new \User($_SESSION['userID'], $db);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -54,7 +54,7 @@ $user = new \User($order->getUserID(), $db);
             </div>
             <div id="main">
                 <h2>Which photos would you like to print?</h2>
-                <form method="post" action="<?php print _SITE_URL_; ?>/order">
+                <form method="post" action="<?php print _SITE_URL_; ?>/confirmation">
                     <table border="0">
                         <?php
                         print $user->getInfo();

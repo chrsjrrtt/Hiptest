@@ -42,9 +42,14 @@ class Main {
     }
 
     public function initializeDB($db) {
-        $query = "INSERT INTO `user` VALUES();";
-        mysqli_query($db, $query);
-        $userID = mysqli_insert_id($db);
+        if (empty($_SESSION['userID'])) {
+            $query = "INSERT INTO `user` VALUES();";
+            mysqli_query($db, $query);
+            $userID = mysqli_insert_id($db);
+            $_SESSION['userID'] = $userID;
+        } else {
+            $userID = $_SESSION['userID'];
+        }
 
         $query = "INSERT INTO `order` (`user_id`)VALUES('" . $userID . "');";
         mysqli_query($db, $query);

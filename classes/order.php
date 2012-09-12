@@ -49,37 +49,52 @@ class Order {
             return $returnHTML;
         }
         foreach ($this->images as $current) {
+            if ($this->completed) {
+                $returnHTML .= "<div><table border='0'><tr>";
+                $returnHTML .= "<td><a class='lightbox' href='" . $current->getStandardURL() . "'><img src='" . $current->getThumbURL() . "' height='" . $current->getThumbHeight() . "' width='" . $current->getThumbWidth() . "' alt='An image to be printed' /></a></td>";
+                $returnHTML .= "<td><table border='0'><tr><td>Quantity </td><td>" . $current->getQuantity() . "</td></tr>";
+                $returnHTML .= "<tr><td>Border </td><td>" . $current->getBorder() . "</td></tr>";
 
-            $returnHTML .= "<div><table border='0'><tr>";
-            $returnHTML .= "<td><input type='hidden' name='imageID[]' value='" . $current->getImageID() . "' /><img src='" . _SITE_URL_ . "/img/delete.png' class='remove' alt='Remove' /></td>";
-            $returnHTML .= "<td><a class='lightbox' href='" . $current->getStandardURL() . "'><img src='" . $current->getThumbURL() . "' height='" . $current->getThumbHeight() . "' width='" . $current->getThumbWidth() . "' alt='An image to be printed' /></a></td>";
-            $returnHTML .= "<td><table border='0'><tr><td>Quantity </td><td><input name='quantity[]' value='" . $current->getQuantity() . "' /></td></tr>";
-            $returnHTML .= "<tr><td>Border </td><td><select name='border[]'>";
-            if ($current->getBorder() == "white") {
-                $returnHTML .= "<option value='white' selected='selected'>White</option>
-                    <option value='black'>Black</option>";
+                $returnHTML .= "<tr><td>Size </td><td>";
+
+                $query = "SELECT * FROM `size` WHERE `size_id`='" . $current->getSize() . "';";
+                $result = mysqli_query($this->db, $query);
+                $data = mysqli_fetch_assoc($result);
+                $returnHTML .= $data['name'];
+
+                $returnHTML .= "</td></tr></table></td>";
+                $returnHTML .= "</tr></table></div>";
             } else {
-                $returnHTML .= "<option value = 'white'>White</option>
+
+                $returnHTML .= "<div><table border='0'><tr>";
+                $returnHTML .= "<td><input type='hidden' name='imageID[]' value='" . $current->getImageID() . "' /><img src='" . _SITE_URL_ . "/img/delete.png' class='remove' alt='Remove' /></td>";
+                $returnHTML .= "<td><a class='lightbox' href='" . $current->getStandardURL() . "'><img src='" . $current->getThumbURL() . "' height='" . $current->getThumbHeight() . "' width='" . $current->getThumbWidth() . "' alt='An image to be printed' /></a></td>";
+                $returnHTML .= "<td><table border='0'><tr><td>Quantity </td><td><input name='quantity[]' value='" . $current->getQuantity() . "' /></td></tr>";
+                $returnHTML .= "<tr><td>Border </td><td><select name='border[]'>";
+                if ($current->getBorder() == "white") {
+                    $returnHTML .= "<option value='white' selected='selected'>White</option>
+                    <option value='black'>Black</option>";
+                } else {
+                    $returnHTML .= "<option value = 'white'>White</option>
                     <option value = 'black' selected='selected'>Black</option>";
-            }
-
-            $returnHTML .= "</select></td></tr>";
-            $returnHTML .= "<tr><td>Size </td><td><select name='size[]'>";
-
-            $query = "SELECT * FROM `size`";
-            $result = mysqli_query($this->db, $query);
-            while ($data = mysqli_fetch_assoc($result)) {
-                $returnHTML .= "<option value='" . $data['size_id'] . "'";
-                if ($data['size_id'] == $current->getSize()) {
-                    $returnHTML .= " selected='selected'";
                 }
-                $returnHTML .= ">" . $data['name'] . "</option>";
+
+                $returnHTML .= "</select></td></tr>";
+                $returnHTML .= "<tr><td>Size </td><td><select name='size[]'>";
+
+                $query = "SELECT * FROM `size`";
+                $result = mysqli_query($this->db, $query);
+                while ($data = mysqli_fetch_assoc($result)) {
+                    $returnHTML .= "<option value='" . $data['size_id'] . "'";
+                    if ($data['size_id'] == $current->getSize()) {
+                        $returnHTML .= " selected='selected'";
+                    }
+                    $returnHTML .= ">" . $data['name'] . "</option>";
+                }
+                $returnHTML .= "</select></td></tr></table></td>";
+                $returnHTML .= "</tr></table></div>";
             }
-            $returnHTML .= "</select></td></tr></table></td>";
-            $returnHTML .= "</tr></table></div>";
         }
-
-
         return $returnHTML;
     }
 
@@ -109,6 +124,12 @@ class Order {
                 $image->getThumbHeight() . "','" .
                 $image->getThumbWidth() . "','" .
                 $image->getStandardURL() . "');";
+        mysqli_query($this->db, $query);
+    }
+
+    public function complete() {
+        $this->completed = 1;
+        $query = "UPDATE `order` SET `completed`='1' WHERE `order_id`='" . $this->orderID . "';";
         mysqli_query($this->db, $query);
     }
 

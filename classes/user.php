@@ -42,8 +42,22 @@ class User {
     public function getProv() {
         return $this->prov;
     }
+    
+    public function getEmail() {
+        return$this->email;;
+    }
 
-    public function getInfo() {
+    public function getInfo($complete=false) {
+        if($complete) {
+            $returnHTML = "<tr><td>Name </td><td>". $this->name . "</td></tr>";
+        $returnHTML .= "<tr><td>Email </td><td>" . $this->email . "</td></tr>";
+        $returnHTML .= "<tr><td>Phone </td><td>" . $this->phone . "</td></tr>";
+        $returnHTML .= "<tr><td>Address </td><td>" . $this->address . "</td></tr>";
+        $returnHTML .= "<tr><td>City </td><td>" . $this->city . "</td></tr>";
+        $returnHTML .= "<tr><td>Postal Code </td><td>" . $this->postal . "</td></tr>";
+        $returnHTML .= "<tr><td>Province </td><td>". $this->prov. "</td></tr>";
+        return $returnHTML;
+        }
         $returnHTML = "<tr><td>Name </td><td><input type='text' name='name' value='" . $this->name . "' /></td></tr>";
         $returnHTML .= "<tr><td>Email </td><td><input type='text' name='email' value='" . $this->email . "' /></td></tr>";
         $returnHTML .= "<tr><td>Phone </td><td><input type='text' name='phone' value='" . $this->phone . "' /></td></tr>";
