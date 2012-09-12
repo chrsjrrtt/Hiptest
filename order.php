@@ -5,9 +5,14 @@ namespace Music;
 include "lib/config.php";
 $main = new \Main();
 
-if (!empty($_GET['save'])) {
+if (!empty($_GET['save']) || !empty($_GET['complete'])) {
     \Order::save($_POST, $db);
-    header('Location: ../order');
+    if (!empty($_GET['complete'])) {
+        header('Location: ' . _SITE_URL_ . '/confirmation');
+        exit;
+    }
+    header('Location: ' . _SITE_URL_ . '/order');
+    exit;
 }
 $order = new \Order($_SESSION['orderID'], $db);
 $user = new \User($_SESSION['userID'], $db);
@@ -37,7 +42,7 @@ $user = new \User($_SESSION['userID'], $db);
                     $('form').submit();
                 })
                 $('option[value="<?php print $user->getProv(); ?>"]').attr("selected", "selected");
-            });
+            }); 
         </script>
     </head>
     <body>
@@ -54,7 +59,7 @@ $user = new \User($_SESSION['userID'], $db);
             </div>
             <div id="main">
                 <h2>Which photos would you like to print?</h2>
-                <form method="post" action="<?php print _SITE_URL_; ?>/confirmation">
+                <form method="post" action="<?php print _SITE_URL_; ?>/complete">
                     <table border="0">
                         <?php
                         print $user->getInfo();
