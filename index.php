@@ -1,9 +1,12 @@
 <?php
 
-namespace Music;
+namespace Hiptest;
 
 include "lib/config.php";
 $main = new \Main();
+if (empty($_SESSION['orderID'])) {
+    $main->initializeDB($db);
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -29,14 +32,14 @@ $main = new \Main();
                 <h2>Add Photos using:</h2>
                 <?php
                 if (empty($_SESSION['instagram_access_token'])) {
-                    print "<a href='https://api.instagram.com/oauth/authorize/?client_id=". \Instagram::$client_id. "&redirect_uri=". \Instagram::$redirect. "&response_type=code'><img src = 'http://d36xtkk24g8jdx.cloudfront.net/bluebar/0dac110/images/public/logo.png' alt = 'Add photos using Instagram' /></a>";
+                    print "<a href='https://api.instagram.com/oauth/authorize/?client_id=" . \Instagram::$client_id . "&redirect_uri=" . \Instagram::$redirect . "&response_type=code'><img src = 'http://d36xtkk24g8jdx.cloudfront.net/bluebar/0dac110/images/public/logo.png' alt = 'Add photos using Instagram' /></a>";
                 } else {
                     print "<a href='instagram'><img src = 'http://d36xtkk24g8jdx.cloudfront.net/bluebar/0dac110/images/public/logo.png' alt = 'Add photos using Instagram' /></a>";
                 }
                 ?>
             </div>
             <div id="footer">
-<?php print $main->getFooter(); ?>
+                <?php print $main->getFooter(); ?>
             </div>
         </div>
     </body>

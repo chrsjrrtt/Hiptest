@@ -1,15 +1,18 @@
 <?php
 
-namespace Music;
+namespace Hiptest;
 
 include "lib/config.php";
 $main = new \Main();
 
+$instagram = new \Instagram();
 if (!empty($_REQUEST['code']) && ($_REQUEST['code'] != $_SESSION['ignore_instagram_code'])) {
     $_SESSION['ignore_instagram_code'] = $_REQUEST['code'];
-    $processor = new \InstagramProcessor();
-    $processor->processCode($_REQUEST['code']);
+
+    $data = $instagram->requestAccessToken($_REQUEST['code']);
 }
+
+$data = $instagram->getRecentMedia();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -45,8 +48,7 @@ if (!empty($_REQUEST['code']) && ($_REQUEST['code'] != $_SESSION['ignore_instagr
                 <form method="post" action="instagram/add">
                     <table border="0" id="instagram">
                         <?php
-                        $instagram = new \Instagram();
-                        print $instagram->getRecentMedia();
+                        print $data;
                         ?>
                     </table>
                     <p>

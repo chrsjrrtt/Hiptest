@@ -40,11 +40,11 @@ class InstagramImage {
         $this->thumb_url = $parsedData['data']['images']['thumbnail']['url'];
         $this->standard_url = $parsedData['data']['images']['standard_resolution']['url'];
         $this->thumb_height = $parsedData['data']['images']['thumbnail']['height'];
-        $this->thumb_width = $parsedData['data']['images']['thumbnail']['widtrh'];
+        $this->thumb_width = $parsedData['data']['images']['thumbnail']['width'];
     }
 
     public function getImage() {
-        $image = new Image($this->thumb_url, $this->standard_url, $this->thumb_height, $this->thumb_width);
+        $image = new Image(-1, "", $this->thumb_url, $this->standard_url, $this->thumb_height, $this->thumb_width);
         return $image;
     }
 

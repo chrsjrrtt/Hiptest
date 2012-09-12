@@ -13,7 +13,7 @@
 class Main {
 
     function __construct() {
-
+        
     }
 
     public function getSiteName() {
@@ -30,14 +30,26 @@ class Main {
 
     public function getNavbar() {
 
-        $navbar .= "<div class='navcontainer'><div class='navitem'><a href='". _SITE_URL_. "'>Add Photos</a></div></div>";
+        $navbar .= "<div class='navcontainer'><div class='navitem'><a href='" . _SITE_URL_ . "'>Add Photos</a></div></div>";
         $navbar .= "<div class='navcontainer'><div class='navitem'><a href='order/'>View Order</a></div></div>";
 
         return $navbar;
     }
 
     public function getFooter() {
-        return "Made by Chris Jarrett";;
+        return "Made by Chris Jarrett";
+        ;
+    }
+
+    public function initializeDB($db) {
+        $query = "INSERT INTO `user` VALUES();";
+        mysqli_query($db, $query);
+        $userID = mysqli_insert_id($db);
+        
+        $query = "INSERT INTO `order` (`user_id`)VALUES('". $userID. "');";
+        mysqli_query($db, $query);
+        $orderID = mysqli_insert_id($db);
+        $_SESSION['orderID'] = $orderID;
     }
 
 }

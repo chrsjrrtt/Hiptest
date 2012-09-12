@@ -6,10 +6,11 @@ include "lib/config.php";
 $main = new \Main();
 
 if (!empty($_GET['save'])) {
-    \Order::save($_POST);
+    \Order::save($_POST, $db);
     header('Location: ../order');
 }
-$order = new \Order();
+$order = new \Order($_SESSION['orderID'], $db);
+$user = new \User($order->getUserID(), $db);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -35,7 +36,7 @@ $order = new \Order();
                     $('form').get(0).setAttribute('action', '<?php print _SITE_URL_; ?>/order/save');
                     $('form').submit();
                 })
-                $('option[value="<?php print $order->getProv(); ?>"]').attr("selected", "selected");
+                $('option[value="<?php print $user->getProv(); ?>"]').attr("selected", "selected");
             });
         </script>
     </head>
@@ -56,7 +57,7 @@ $order = new \Order();
                 <form method="post" action="<?php print _SITE_URL_; ?>/order">
                     <table border="0">
                         <?php
-                        print $order->getInfo();
+                        print $user->getInfo();
                         ?>
                     </table>
 

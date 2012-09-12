@@ -1,10 +1,12 @@
 <?php
-namespace Music;
+namespace Hiptest;
 session_set_cookie_params(18000);
 session_start();
 
 define("_INCLUDE_PATH_", "C:\\\\xampp\htdocs\hiptest\classes\\");
 define("_SITE_URL_", "http://home.jjhosting.org/hiptest");
+
+$db = mysqli_connect('127.0.0.1', 'hiptest', 'office', 'hiptest');
 
 class Loader {
     static public function load($name) {

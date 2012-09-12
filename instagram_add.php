@@ -1,16 +1,16 @@
 <?php
-namespace Music;
+namespace Hiptest;
+include "lib/config.php";
 
 if(empty($_POST['selections'])) {
     header('Location: instagram');
     exit;
 }
 
-include "lib/config.php";
-
+$order = new \Order($_SESSION['orderID'], $db);
 foreach($_POST['selections'] as $current) {
     $image = new \InstagramImage($current);
-    $_SESSION['images'][] = serialize($image->getImage());
+    $order->addImage($image->getImage());
 }
 header('Location: ../order');
 ?>

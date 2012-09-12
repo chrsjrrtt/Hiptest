@@ -12,6 +12,8 @@
  */
 class Image {
 
+    private $imageID;
+    private $db;
     private $thumb_url;
     private $thumb_height;
     private $thumb_width;
@@ -20,14 +22,34 @@ class Image {
     private $size;
     private $border;
 
-    public function __construct($inThumb, $inStandard, $inHeight, $inWidth, $inQuantity = "1", $inSize = "0", $inBorder = "white") {
-        $this->thumb_url = $inThumb;
-        $this->standard_url = $inStandard;
-        $this->thumb_height = $inHeight;
-        $this->thumb_width = $inWidth;
-        $this->quantity = $inQuantity;
-        $this->size = $inSize;
-        $this->border = $inBorder;
+    public function __construct($inImageID = "-1", $inDB = "", $inThumb = "", $inStandard = "", $inHeight = "", $inWidth = "", $inQuantity = "1", $inSize = "0", $inBorder = "white") {
+        if ($inImageID == -1) {
+            $this->thumb_url = $inThumb;
+            $this->standard_url = $inStandard;
+            $this->thumb_height = $inHeight;
+            $this->thumb_width = $inWidth;
+            $this->quantity = $inQuantity;
+            $this->size = $inSize;
+            $this->border = $inBorder;
+            return;
+        }
+        $this->imageID = $inImageID;
+        $this->db = $inDB;
+        $query = "SELECT * FROM `image` WHERE `image`.`image_id`='" . $this->imageID . "';";
+        $result = mysqli_query($this->db, $query);
+        $data = mysqli_fetch_assoc($result);
+
+        $this->thumb_url = $data['thumbnail_url'];
+        $this->standard_url = $data['standard_url'];
+        $this->thumb_height = $data['thumbnail_height'];
+        $this->thumb_width = $data['thumbnail_width'];
+        $this->quantity = $data['quantity'];
+        $this->size = $data['size_id'];
+        $this->border = $data['border'];
+    }
+
+    public function getImageID() {
+        return $this->imageID;
     }
 
     public function getThumbURL() {

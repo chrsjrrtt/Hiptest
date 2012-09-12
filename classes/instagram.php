@@ -44,7 +44,10 @@ class Instagram {
 
         //parse the data into an array and toss it out
         $parsedData = json_decode($result, true);
-        return $parsedData;
+
+        //save the token and user id in the session
+        $_SESSION['instagram_access_token'] = $parsedData['access_token'];
+        $_SESSION['instagram_user_id'] = $parsedData['user']['id'];
     }
 
     public function getRecentMedia() {
@@ -63,6 +66,12 @@ class Instagram {
 
         $count = 0;
         $returnHTML = "<tr>";
+
+        if ($parsedData['meta']['code'] != 200) {
+            $_SESSION['instagram_access_token'] = "";
+            header('Location: ' . _SITE_URL_);
+            exit;
+        }
         foreach ($parsedData['data'] as $current) {
             if ($count % 4 == 0 && $count != 0) {
                 $returnHTML .= "</tr><tr>";
