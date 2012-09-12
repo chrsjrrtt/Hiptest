@@ -51,7 +51,7 @@ class Order {
         foreach ($this->images as $current) {
 
             $returnHTML .= "<div><table border='0'><tr>";
-            $returnHTML .= "<td><input type='hidden' name='imageID[]' value='" . $current->getImageID() . "' /><img src='img/delete.png' class='remove' alt='Remove' /></td>";
+            $returnHTML .= "<td><input type='hidden' name='imageID[]' value='" . $current->getImageID() . "' /><img src='" . _SITE_URL_ . "/img/delete.png' class='remove' alt='Remove' /></td>";
             $returnHTML .= "<td><a class='lightbox' href='" . $current->getStandardURL() . "'><img src='" . $current->getThumbURL() . "' height='" . $current->getThumbHeight() . "' width='" . $current->getThumbWidth() . "' alt='An image to be printed' /></a></td>";
             $returnHTML .= "<td><table border='0'><tr><td>Quantity </td><td><input name='quantity[]' value='" . $current->getQuantity() . "' /></td></tr>";
             $returnHTML .= "<tr><td>Border </td><td><select name='border[]'>";
@@ -86,18 +86,20 @@ class Order {
     public static function save($post, $db) {
         $order = new \Order($_SESSION['orderID'], $db);
         $user = new \User($order->getUserID(), $db);
-
         $user->update($post);
         $user->write();
-        
 
-//        $_SESSION['images'] = "";
-//        $pos = 0;
-//        while ($post['thumb'][$pos] != false) {
-//            $image = new Image($post['thumb'][$pos], $post['standard'][$pos], $post['height'][$pos], $post['width'][$pos], $post['quantity'][$pos], $post['size'][$pos], $post['border'][$pos]);
-//            $_SESSION['images'][] = serialize($image);
-//            $pos++;
-//        }
+        $list = "";
+        $pos = 0;
+        while ($post['imageID'][$pos] != false) {
+            $image = new Image($post['imageID'][$pos], $db, $post['thumb'][$pos], $post['standard'][$pos], $post['height'][$pos], $post['width'][$pos], $post['quantity'][$pos], $post['size'][$pos], $post['border'][$pos], true);
+            $image->write();
+            $list .= $post['imageID'][$pos] . ",";
+            $pos++;
+        }
+
+        $query = "DELETE FROM `image` WHERE `image_id` NOT IN (" . mb_substr($list, 0, -1) . ");";
+        mysqli_query($db, $query);
     }
 
     public function addImage($image) {

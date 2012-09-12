@@ -45,8 +45,8 @@ class Main {
         $query = "INSERT INTO `user` VALUES();";
         mysqli_query($db, $query);
         $userID = mysqli_insert_id($db);
-        
-        $query = "INSERT INTO `order` (`user_id`)VALUES('". $userID. "');";
+
+        $query = "INSERT INTO `order` (`user_id`)VALUES('" . $userID . "');";
         mysqli_query($db, $query);
         $orderID = mysqli_insert_id($db);
         $_SESSION['orderID'] = $orderID;

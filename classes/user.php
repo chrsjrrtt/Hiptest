@@ -16,6 +16,7 @@ class User {
     private $db;
     private $name;
     private $email;
+    private $phone;
     private $address;
     private $city;
     private $postal;
@@ -32,6 +33,7 @@ class User {
         $this->name = $data['name'];
         $this->email = $data['email'];
         $this->address = $data['address'];
+        $this->phone = $data['phone'];
         $this->city = $data['city'];
         $this->postal = $data['postal_code'];
         $this->prov = $data['province'];
@@ -44,6 +46,7 @@ class User {
     public function getInfo() {
         $returnHTML = "<tr><td>Name </td><td><input type='text' name='name' value='" . $this->name . "' /></td></tr>";
         $returnHTML .= "<tr><td>Email </td><td><input type='text' name='email' value='" . $this->email . "' /></td></tr>";
+        $returnHTML .= "<tr><td>Phone </td><td><input type='text' name='phone' value='" . $this->phone . "' /></td></tr>";
         $returnHTML .= "<tr><td>Address </td><td><input type='text' name='address' value='" . $this->address . "' /></td></tr>";
         $returnHTML .= "<tr><td>City </td><td><input type='text' name='city' value='" . $this->city . "' /></td></tr>";
         $returnHTML .= "<tr><td>Postal Code </td><td><input type='text' name='postal' value='" . $this->postal . "' /></td></tr>";
@@ -65,25 +68,27 @@ class User {
         </select></td></tr>";
         return $returnHTML;
     }
-    
+
     public function update($inArray) {
         $this->name = mysqli_real_escape_string($this->db, $inArray['name']);
         $this->email = mysqli_real_escape_string($this->db, $inArray['email']);
+        $this->phone = mysqli_real_escape_string($this->db, $inArray['phone']);
         $this->address = mysqli_real_escape_string($this->db, $inArray['address']);
         $this->city = mysqli_real_escape_string($this->db, $inArray['city']);
         $this->postal = mysqli_real_escape_string($this->db, $inArray['postal']);
         $this->prov = mysqli_real_escape_string($this->db, $inArray['prov']);
     }
-    
+
     public function write() {
-        $query = "UPDATE `user` SET".
-                "`name`='". $this->name. "',".
-                "`email`='". $this->email. "',".
-                "`address`='". $this->address. "',".
-                "`city`='". $this->city. "',".
-                "`postal_code`='". $this->postal. "',".
-                "`province`='". $this->prov. "'".
-                " WHERE `user_id`='". $this->userID. "';";
+        $query = "UPDATE `user` SET" .
+                "`name`='" . $this->name . "'," .
+                "`email`='" . $this->email . "'," .
+                "`phone`='" . $this->phone . "'," .
+                "`address`='" . $this->address . "'," .
+                "`city`='" . $this->city . "'," .
+                "`postal_code`='" . $this->postal . "'," .
+                "`province`='" . $this->prov . "'" .
+                " WHERE `user_id`='" . $this->userID . "';";
         mysqli_query($this->db, $query);
     }
 
