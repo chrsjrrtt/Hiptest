@@ -64,11 +64,11 @@ class Instagram {
         $count = 0;
         $returnHTML = "<tr>";
         foreach ($parsedData['data'] as $current) {
-            if ($count % 4 == 0) {
+            if ($count % 4 == 0 && $count != 0) {
                 $returnHTML .= "</tr><tr>";
             }
             $thumb = $current['images']['thumbnail'];
-            $returnHTML .= "<td><a class='lightbox' href='" . $current['images']['standard_resolution']['url'] . "'><img src='" . $thumb['url'] . "' height='" . $thumb['height'] . "' width='" . $thumb['width'] . "' /><a/><br /><input type='checkbox' name='selections[]' value='" . $current['id'] . "' /></td>";
+            $returnHTML .= "<td><a class='lightbox' href='" . $current['images']['standard_resolution']['url'] . "'><img src='" . $thumb['url'] . "' height='" . $thumb['height'] . "' width='" . $thumb['width'] . "' alt='An image from Instagram' /></a><p><input type='checkbox' name='selections[]' value='" . $current['id'] . "' /></p></td>";
             $count++;
         }
         $returnHTML .= "</tr>";

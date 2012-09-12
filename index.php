@@ -11,7 +11,7 @@ $main = new \Main();
     <head>
         <title><?php print $main->getSiteName() ?>: Home</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<?php echo $main->getStyles() ?>
+        <?php echo $main->getStyles() ?>
     </head>
     <body>
         <div id="wrap">
@@ -27,10 +27,16 @@ $main = new \Main();
             </div>
             <div id="main">
                 <h2>Add Photos using:</h2>
-                <a href="https://api.instagram.com/oauth/authorize/?client_id=<?php print \Instagram::$client_id; ?>&redirect_uri=<?php print \Instagram::$redirect; ?>&response_type=code"><img src="http://d36xtkk24g8jdx.cloudfront.net/bluebar/0dac110/images/public/logo.png" alt="Add photos using Instagram" /></a>
+                <?php
+                if (empty($_SESSION['instagram_access_token'])) {
+                    print "<a href='https://api.instagram.com/oauth/authorize/?client_id=". \Instagram::$client_id. "&redirect_uri=". \Instagram::$redirect. "&response_type=code'><img src = 'http://d36xtkk24g8jdx.cloudfront.net/bluebar/0dac110/images/public/logo.png' alt = 'Add photos using Instagram' /></a>";
+                } else {
+                    print "<a href='instagram'><img src = 'http://d36xtkk24g8jdx.cloudfront.net/bluebar/0dac110/images/public/logo.png' alt = 'Add photos using Instagram' /></a>";
+                }
+                ?>
             </div>
             <div id="footer">
-                <?php print $main->getFooter(); ?>
+<?php print $main->getFooter(); ?>
             </div>
         </div>
     </body>

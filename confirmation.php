@@ -5,17 +5,17 @@ namespace Music;
 include "lib/config.php";
 $main = new \Main();
 
-if (!empty($_REQUEST['code']) && ($_REQUEST['code'] != $_SESSION['ignore_instagram_code'])) {
-    $_SESSION['ignore_instagram_code'] = $_REQUEST['code'];
-    $processor = new \InstagramProcessor();
-    $processor->processCode($_REQUEST['code']);
+if (!empty($_GET['save'])) {
+    \Order::save($_POST);
+    header('Location: ../order');
 }
+$order = new \Order();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title><?php print $main->getSiteName() ?>: Instagram</title>
+        <title><?php print $main->getSiteName() ?>: Order</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <?php echo $main->getStyles() ?>
         <link rel="stylesheet" href="<?php print _SITE_URL_; ?>/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
@@ -25,6 +25,8 @@ if (!empty($_REQUEST['code']) && ($_REQUEST['code'] != $_SESSION['ignore_instagr
             $(document).ready(function() {
                 //add the lightbox
                 $("a.lightbox").fancybox();
+                                
+                $('option[value="<?php print $order->getProv(); ?>"]').attr("selected", "selected");
             });
         </script>
     </head>
@@ -42,17 +44,15 @@ if (!empty($_REQUEST['code']) && ($_REQUEST['code'] != $_SESSION['ignore_instagr
             </div>
             <div id="main">
                 <h2>Which photos would you like to print?</h2>
-                <form method="post" action="instagram/add">
-                    <table border="0" id="instagram">
+                    <table border="0">
                         <?php
-                        $instagram = new \Instagram();
-                        print $instagram->getRecentMedia();
+                        print $order->getInfo();
                         ?>
                     </table>
-                    <p>
-                        <input type="submit" value="Add to order" />
-                    </p>
-                </form>
+
+                    <?php
+                    print $order->getImages();
+                    ?>
             </div>
             <div id="footer">
                 <?php print $main->getFooter(); ?>

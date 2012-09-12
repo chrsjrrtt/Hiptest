@@ -30,8 +30,8 @@ class Main {
 
     public function getNavbar() {
 
-        $navbar .= "<div class='navcontainer'><a href='". _SITE_URL_. "'><div class='navitem'>Add Photos</div></a></div>";
-        $navbar .= "<div class='navcontainer'><a href='order/'><div class='navitem'>View Order</div></a></div>";
+        $navbar .= "<div class='navcontainer'><div class='navitem'><a href='". _SITE_URL_. "'>Add Photos</a></div></div>";
+        $navbar .= "<div class='navcontainer'><div class='navitem'><a href='order/'>View Order</a></div></div>";
 
         return $navbar;
     }

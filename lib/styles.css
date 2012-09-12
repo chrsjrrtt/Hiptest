@@ -42,7 +42,7 @@ a {
     margin: auto;
     text-align: center;
     background-color: #44bbff;
-    -moz-border-radius: 15px;
+    border-radius: 15px 15px 15px 15px;
     color: black;
 }
 
@@ -77,4 +77,19 @@ a {
 
 #main table {
     margin: 0 auto;
+}
+
+#instagram tr {
+    padding-bottom: 10px;
+}
+
+.button {
+    display: inline;
+    margin: 10px 0 20px 10px;
+}
+
+.remove {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
 }

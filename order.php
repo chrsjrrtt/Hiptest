@@ -5,11 +5,11 @@ namespace Music;
 include "lib/config.php";
 $main = new \Main();
 
-if (!empty($_REQUEST['code']) && ($_REQUEST['code'] != $_SESSION['ignore_instagram_code'])) {
-    $_SESSION['ignore_instagram_code'] = $_REQUEST['code'];
-    $processor = new \InstagramProcessor();
-    $processor->processCode($_REQUEST['code']);
+if (!empty($_GET['save'])) {
+    \Order::save($_POST);
+    header('Location: ../order');
 }
+$order = new \Order();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -25,6 +25,17 @@ if (!empty($_REQUEST['code']) && ($_REQUEST['code'] != $_SESSION['ignore_instagr
             $(document).ready(function() {
                 //add the lightbox
                 $("a.lightbox").fancybox();
+                
+                $(".remove").click(function() {
+                    $(this).parent().parent().parent().parent().parent().slideUp("slow", function() {
+                        $(this).remove();
+                    });
+                });
+                $(".save").click(function() {
+                    $('form').get(0).setAttribute('action', '<?php print _SITE_URL_; ?>/order/save');
+                    $('form').submit();
+                })
+                $('option[value="<?php print $order->getProv(); ?>"]').attr("selected", "selected");
             });
         </script>
     </head>
@@ -42,20 +53,21 @@ if (!empty($_REQUEST['code']) && ($_REQUEST['code'] != $_SESSION['ignore_instagr
             </div>
             <div id="main">
                 <h2>Which photos would you like to print?</h2>
-                <form method="POST" action="instagram/add">
+                <form method="post" action="<?php print _SITE_URL_; ?>/order">
                     <table border="0">
                         <?php
-                        $order = new \Order();
                         print $order->getInfo();
                         ?>
                     </table>
 
-                    <table border="0">
-                        <?php
-                        print $order->getImages();
-                        ?>
-                    </table>
-                    <input type="submit" value="Submit" />
+                    <?php
+                    print $order->getImages();
+                    ?>
+                    <p>
+                        <input type="button" class="button" value="Reset" onclick="window.location ='';" />
+                        <input type="button" class="button save" value="Save" />
+                        <input type="submit" class="button" value="Submit" />
+                    </p>
                 </form>
             </div>
             <div id="footer">
