@@ -1,0 +1,7 @@
+Options +FollowSymlinks
+RewriteEngine on
+
+#Rewrites
+RewriteRule ^instagram/?$ /hiptest/instagram_index.php [L]
+RewriteRule ^instagram/add/?$ /hiptest/instagram_add.php [L]
+RewriteRule ^order/?$ /hiptest/order.php [L]
