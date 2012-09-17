@@ -14,7 +14,7 @@ class Instagram {
 
     public static $client_id = "c04ff613a82f4f15bab41cdf8f1e5467";
     public static $client_secret = "87a53fc794314948b18214de7f3dcded";
-    public static $redirect = "http://home.jjhosting.org/hiptest/instagram";
+    public static $redirect = "http://127.0.0.1/hiptest/instagram";
 
     function __construct() {
         

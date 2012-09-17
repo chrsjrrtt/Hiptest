@@ -50,7 +50,7 @@ class Order {
         }
         foreach ($this->images as $current) {
             if ($this->completed) {
-                $returnHTML .= "<div><table border='0'><tr>";
+                $returnHTML = "<div><table border='0'><tr>";
                 $returnHTML .= "<td><a class='lightbox' href='" . $current->getStandardURL() . "'><img src='" . $current->getThumbURL() . "' height='" . $current->getThumbHeight() . "' width='" . $current->getThumbWidth() . "' alt='An image to be printed' /></a></td>";
                 $returnHTML .= "<td><table border='0'><tr><td>Quantity </td><td>" . $current->getQuantity() . "</td></tr>";
                 $returnHTML .= "<tr><td>Border </td><td>" . $current->getBorder() . "</td></tr>";
@@ -66,7 +66,7 @@ class Order {
                 $returnHTML .= "</tr></table></div>";
             } else {
 
-                $returnHTML .= "<div><table border='0'><tr>";
+                $returnHTML = "<div><table border='0'><tr>";
                 $returnHTML .= "<td><input type='hidden' name='imageID[]' value='" . $current->getImageID() . "' /><img src='" . _SITE_URL_ . "/img/delete.png' class='remove' alt='Remove' /></td>";
                 $returnHTML .= "<td><a class='lightbox' href='" . $current->getStandardURL() . "'><img src='" . $current->getThumbURL() . "' height='" . $current->getThumbHeight() . "' width='" . $current->getThumbWidth() . "' alt='An image to be printed' /></a></td>";
                 $returnHTML .= "<td><table border='0'><tr><td>Quantity </td><td><input name='quantity[]' value='" . $current->getQuantity() . "' /></td></tr>";
